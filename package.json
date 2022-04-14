@@ -1,0 +1,21 @@
+{
+  "name": "qelegram",
+  "version": "1.0.0",
+  "description": "A super promax telegrambot",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "QuangNV",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "lowdb": "1.0.0",
+    "nodemon": "^2.0.15",
+    "telegraf": "^4.7.0"
+  }
+}
