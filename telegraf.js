@@ -12,7 +12,7 @@ bot.start((ctx) => {
     const channelId = utils.makeid(20);
     ctx.reply(
       // eslint-disable-next-line no-undef
-      `Your channel id is: ${channelId} \nYour webhook url: ${process.env.ROOT_URL}:${process.env.PORT || 3003}?channelId=${channelId}`
+      `Your channel id is: ${channelId} \nYour webhook url: http://${process.env.ROOT_URL}:${process.env.PORT || 3003}?channelId=${channelId}`
     );
     db.get('gitlab_channels').push({ channelId, chatId: ctx.chat.id }).write();
   });
