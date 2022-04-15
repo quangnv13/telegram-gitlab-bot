@@ -1,11 +1,13 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const gitlabService = require('./gitlab.service');
 const { json } = require('express');
 
 const app = express();
 const port = process.env.PORT || 3100;
 
+app.use(cors());
 app.use(json());
 
 app.use((req, res, next) => {
