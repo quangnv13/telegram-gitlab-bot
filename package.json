@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "A super promax telegrambot",
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^8.13.0"
+  },
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"

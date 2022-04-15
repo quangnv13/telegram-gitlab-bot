@@ -1,25 +1,22 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const gitlabService = require('./gitlab.service');
 const { json } = require('express');
+const { handleRequest } = require('./routes');
 
 const app = express();
-const port = process.env.PORT || 3100;
+// eslint-disable-next-line no-undef
+const port = 3003;
 
 app.use(cors());
 app.use(json());
 
 app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}]: ${req.method} - ${req.path}`);
+  console.log(`[${new Date().toISOString()}]: ${req.method} - ${req.path} - Kind: ${req.body.object_kind}`);
   next();
 });
 
-// app.get('/', (req, res) => {
-//   res.send('OK');
-// });
-
-app.post('/', gitlabService.handleRequest);
+app.post('/', handleRequest);
 
 app.listen(port, () => {
   console.log(`Qelegram bot is running on port ${port}`);
