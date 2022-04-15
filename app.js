@@ -6,7 +6,7 @@ const { handleRequest } = require('./routes');
 
 const app = express();
 // eslint-disable-next-line no-undef
-const port = 3003;
+const port = process.env.PORT || 3010;
 
 app.use(cors());
 app.use(json());
