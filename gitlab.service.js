@@ -14,6 +14,7 @@ bot.start((ctx) => {
       // eslint-disable-next-line no-undef
       `Your channel id is: ${channelId} \nYour webhook url: http://${process.env.ROOT_URL}:${process.env.PORT || 3003}?channelId=${channelId}`
     );
+    ctx.reply(`<a href="https://github.com/quangnv13/telegram-gitlab-bot">Give me a star or issues =))</a>`, { parse_mode: 'HTML' })
     db.get('gitlab_channels').push({ channelId, chatId: ctx.chat.id }).write();
   });
 });
@@ -23,8 +24,12 @@ bot.launch();
 
 const sendMessage = (channelId, message) => {
   const channelInstance = db.get('gitlab_channels').find({ channelId }).value();
-  bot.telegram.sendMessage(channelInstance.chatId, message);
+  bot.telegram.sendMessage(channelInstance.chatId, message, { parse_mode: 'HTML' });
 };
+
+const makeALink = (url) => {
+  return `${linkIcon} <a href="${url}">Click to view</a>`
+}
 
 
 
@@ -35,7 +40,6 @@ const lineIcon = '👉'
 const linkIcon = '🙏';
 
 const handleMergeRequest = (channelId, data) => {
-  console.log(data);
   if (data.object_attributes.action === 'open') {
     sendMessage(
       channelId,
@@ -43,7 +47,7 @@ const handleMergeRequest = (channelId, data) => {
       \n${markIcon} Rân chơi "${data.user.name}"" đã tạo 1 merge request mới
       \n${markIcon} Title: ${data.object_attributes.title}
       \n${lineIcon} Project: ${data.project.name}
-      \n${linkIcon} Link: ${data.object_attributes.url}
+      \n${linkIcon} ${makeALink(data.object_attributes.url)}
       `
     );
   }
@@ -55,7 +59,7 @@ const handleMergeRequest = (channelId, data) => {
       \n${checkIcon} Bro "${data.user.name}" đã approved merge request
       \n${markIcon} Title: ${data.object_attributes.title}
       \n${lineIcon} Project: ${data.project.name}
-      \n${linkIcon} Link: ${data.object_attributes.url}
+      \n${linkIcon} ${makeALink(data.object_attributes.url)}
       `
     );
   }
@@ -67,22 +71,20 @@ const handleMergeRequest = (channelId, data) => {
       \n${rejectIcon} Bro "${data.user.name}" đã close merge request
       \n${markIcon} Title: ${data.object_attributes.title}
       \n${lineIcon} Project: ${data.project.name}
-      \n${linkIcon} Link: ${data.object_attributes.url}
+      \n${linkIcon} ${makeALink(data.object_attributes.url)}
       `
     );
   }
 }
 
 const handlePipeLineEvent = (channelId, data) => {
-  console.log(data);
-
   if (data.object_attributes.status === 'running') {
     sendMessage(
       channelId,
       `
         \n${linkIcon} Đang deploy!!
         \n${lineIcon} Project: ${data.project.name}
-        \n${linkIcon} ${data.project.web_url}
+        \n${linkIcon} ${makeALink(data.project.web_url)}
         `
     );
   }
@@ -93,7 +95,7 @@ const handlePipeLineEvent = (channelId, data) => {
       `
         \n${rejectIcon} Deploy lỗi cmnr! Ảo ma canada need check gấp!!!!
         \n${lineIcon} Project: ${data.project.name}
-        \n${linkIcon} ${data.project.web_url}
+        \n${linkIcon} ${makeALink(data.project.web_url)}
         `
     );
   }
@@ -104,7 +106,7 @@ const handlePipeLineEvent = (channelId, data) => {
       `
         \n${checkIcon} Đã deploy!!
         \n${lineIcon} Project: ${data.project.name}
-        \n${linkIcon} ${data.project.web_url}
+        \n${linkIcon} ${makeALink(data.project.web_url)}
         `
     );
   }
